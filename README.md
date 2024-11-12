@@ -49,4 +49,5 @@
 
 ## ERD
 https://dbdiagram.io/d/6733894fe9daa85aca33ab7c
-![Untitled](https://github.com/user-attachments/assets/62725756-2b75-4a32-8515-0a8428d7ea5b)
+![Untitled (1)](https://github.com/user-attachments/assets/5be972dd-cdcf-4ded-a7db-edb27fc9d28c)
+
