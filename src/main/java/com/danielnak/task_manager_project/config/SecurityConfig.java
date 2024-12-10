@@ -19,7 +19,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/login", "/public/**",
-                        "/register", "/register/**", "/h2-config", "/h2-config/**").permitAll() // Allow unauthenticated access to registration
+                        "/register", "/register/**", "/h2-config", "/h2-config/**", "/api/**").permitAll() // Allow unauthenticated access to registration
                 .anyRequest().authenticated()                       // Require authentication for all other requests
             )
             .formLogin(form -> form

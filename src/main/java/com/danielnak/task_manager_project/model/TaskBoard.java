@@ -1,9 +1,17 @@
 package com.danielnak.task_manager_project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Table(name = "task_boards")
 public class TaskBoard {
 
@@ -22,6 +30,7 @@ public class TaskBoard {
 
     // Relationships
     @OneToMany(mappedBy = "taskBoard", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("taskBoard-tasks")
     private List<Task> tasks;
 
     @ManyToMany
@@ -33,6 +42,7 @@ public class TaskBoard {
     private List<User> collaborators;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
 
