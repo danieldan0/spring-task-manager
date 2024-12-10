@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 
 @Configuration
 @ConditionalOnProperty(name = "spring.security.enabled", havingValue = "true", matchIfMissing = true)
@@ -18,7 +19,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/login", "/public/**",
-                        "/register", "/register/**").permitAll() // Allow unauthenticated access to registration
+                        "/register", "/register/**", "/h2-config", "/h2-config/**").permitAll() // Allow unauthenticated access to registration
                 .anyRequest().authenticated()                       // Require authentication for all other requests
             )
             .formLogin(form -> form
@@ -31,7 +32,8 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout") // Redirect after logout
                 .permitAll()
             )
-            .csrf(AbstractHttpConfigurer::disable); // Disable CSRF for simplicity in development (not recommended for production)
+            .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for simplicity in development (not recommended for production)
+            .headers(HeadersConfigurer::disable);
 
         return http.build();
     }
