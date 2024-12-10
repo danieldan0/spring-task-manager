@@ -32,6 +32,10 @@ public class TaskBoard {
     )
     private List<User> collaborators;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     // Constructors
     public TaskBoard() {}
 
@@ -88,6 +92,14 @@ public class TaskBoard {
 
     public void setCollaborators(List<User> collaborators) {
         this.collaborators = collaborators;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
 

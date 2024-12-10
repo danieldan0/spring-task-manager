@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Your Dashboard!</h1>
+
+    <!-- Show existing task boards -->
+    <h2>Your Task Boards</h2>
+    <ul>
+        <li th:each="taskBoard : ${taskBoards}">
+            <a th:href="@{/taskboards/{id}(id=${taskBoard.id})}" th:text="${taskBoard.name}"></a>
+        </li>
+    </ul>
+
+    <h3><a href="taskboards/new">Create a New Task Board</a></h3>
+
+    <a href="/logout">Logout</a>
+</body>
+</html>

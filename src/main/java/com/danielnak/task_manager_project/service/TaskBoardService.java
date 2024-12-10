@@ -1,7 +1,9 @@
 package com.danielnak.task_manager_project.service;
 
+import com.danielnak.task_manager_project.model.Task;
 import com.danielnak.task_manager_project.model.TaskBoard;
 import com.danielnak.task_manager_project.repository.TaskBoardRepository;
+import com.danielnak.task_manager_project.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,34 +12,39 @@ import java.util.List;
 @Service
 public class TaskBoardService {
 
-    private final TaskBoardRepository taskBoardRepository;
+    @Autowired
+    private TaskBoardRepository taskBoardRepository;
 
     @Autowired
-    public TaskBoardService(TaskBoardRepository taskBoardRepository) {
-        this.taskBoardRepository = taskBoardRepository;
-    }
+    private TaskRepository taskRepository;
 
-    public TaskBoard createBoard(TaskBoard taskBoard) {
-        return taskBoardRepository.save(taskBoard);
-    }
-
-    public TaskBoard getBoardById(Long id) {
-        return taskBoardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Board not found"));
-    }
-
-    public List<TaskBoard> getAllBoards() {
+    // Get all taskboards
+    public List<TaskBoard> getAllTaskBoards() {
         return taskBoardRepository.findAll();
     }
 
-    public TaskBoard updateBoard(Long id, TaskBoard updatedTaskBoard) {
-        TaskBoard existingBoard = getBoardById(id);
-        existingBoard.setName(updatedTaskBoard.getName());
-        existingBoard.setDescription(updatedTaskBoard.getDescription());
-        return taskBoardRepository.save(existingBoard);
+    // Get a taskboard by ID
+    public TaskBoard getTaskBoardById(Long id) {
+        return taskBoardRepository.findById(id).orElse(null);
     }
 
-    public void deleteBoard(Long id) {
-        taskBoardRepository.deleteById(id);
+    // Get all taskboards by user ID
+    public List<TaskBoard> getTaskBoardsByUserId(Long userId) {
+        return taskBoardRepository.findByUserId(userId);
+    }
+
+    // Create or update a taskboard
+    public TaskBoard saveTaskBoard(TaskBoard taskBoard) {
+        return taskBoardRepository.save(taskBoard);
+    }
+
+    // Add a task to a taskboard
+    public Task addTaskToTaskBoard(Long taskBoardId, Task task) {
+        TaskBoard taskBoard = taskBoardRepository.findById(taskBoardId).orElseThrow(() ->
+                new RuntimeException("TaskBoard not found"));
+
+        task.setTaskBoard(taskBoard);
+        return taskRepository.save(task);
     }
 }
 

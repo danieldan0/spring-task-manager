@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TaskBoard</title>
+</head>
+<body>
+    <h1 th:text="${taskBoard.name}"></h1>
+    <h3>Tasks</h3>
+    <ul>
+        <li th:each="task : ${taskBoard.tasks}">
+            <span th:text="${task.title}"></span>
+            <span th:text="${task.status}"></span>
+        </li>
+    </ul>
+
+    <h3>Add New Task</h3>
+    <form method="post" th:action="@{/taskboards/{id}/tasks(id=${taskBoard.id})}">
+        <input type="text" name="taskTitle" placeholder="Task Title" required>
+        <input type="text" name="taskStatus" placeholder="Task Status" required>
+        <button type="submit">Add Task</button>
+    </form>
+    <a href="/home">Back to dashboard</a>
+</body>
+</html>
